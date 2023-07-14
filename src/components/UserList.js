@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
+import User from "./User";
 
 function UserList() {
   const navigate = useNavigate();
@@ -21,6 +22,24 @@ function UserList() {
     };
     fetchData();
   }, []);
+
+  const deleteUser = (e, userId) => {
+    e.preventDefault();
+    UserService.deleteUser(userId)
+      .then(() => {
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user.userId !== userId)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const editUser = (e, firstName, lastName) => {
+    e.preventDefault();
+    navigate(`/editUser/${firstName}/${lastName}`);
+  };
 
   return (
     <div className="container mx-auto my-8">
@@ -60,33 +79,22 @@ function UserList() {
               </th>
             </tr>
           </thead>
-          {!loading && (
+          {!loading && users.length > 0 ? (
             <tbody className="bg-white">
               {users.map((user) => (
-                <tr key={user.userId}>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.firstName}</div>
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.lastName}</div>
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.emailAddresses}</div>
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.phoneNumbers}</div>
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.gender}</div>
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500">{user.age}</div>
-                  </td>
-                  <td className="text-right px-6 py-4 whitespace-nowrap">
-                    {/* Add actions for edit and delete */}
-                  </td>
-                </tr>
+                <User
+                  user={user}
+                  deleteUser={deleteUser}
+                  editUser={editUser} // Add the editUser prop
+                  key={user.userId}
+                />
               ))}
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td colSpan="7">No users found.</td>
+              </tr>
             </tbody>
           )}
         </table>
