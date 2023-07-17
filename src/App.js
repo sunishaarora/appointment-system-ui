@@ -7,14 +7,15 @@ import UpdateUser from "./components/UpdateUser";
 import ListAppt from "./components/ListAppt";
 import UpdateAppt from "./components/UpdateAppt";
 import AddAppt from "./components/AddAppt";
-import Home from "./components/Home";
+import Homepage from "./components/Homepage";
 
 function App() {
     return (
         <BrowserRouter>
             <Navbar />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Homepage />} />
+                <Route path="/Homepage" element={<Homepage />} />
                 <Route path="/userList" element={<UserList />} />
                 <Route path="/addUser" element={<AddUser />} />
                 <Route path="/editUser/:firstName/:lastName" element={<UpdateUser />} />
