@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USER_API_BASE_URL = "http://localhost:8100/api/v1";
+const USER_API_BASE_URL = "http://localhost:8080/management-system";
 
 class UserService {
   saveUser(user) {
@@ -12,13 +12,12 @@ class UserService {
   deleteUser(userId){
     return axios.delete(USER_API_BASE_URL + "/deleteUser/" + userId)
   }
-  updateUser(userId){
-    return axios.put(USER_API_BASE_URL + "/updateUser/" + userId)
+  updateUser(userId, user){
+    return axios({method: "put", url: USER_API_BASE_URL + "/updateUser/" + userId, data: user})
   }
   getUserByName(firstName, lastName){
     return axios.get(USER_API_BASE_URL + "/user/search/" + firstName + "/" + lastName)
   }
-
 }
 
 export default new UserService();
