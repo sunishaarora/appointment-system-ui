@@ -18,7 +18,7 @@ function App() {
                 <Route path="/Homepage" element={<Homepage />} />
                 <Route path="/userList" element={<UserList />} />
                 <Route path="/addUser" element={<AddUser />} />
-                <Route path="/editUser/:firstName/:lastName" element={<UpdateUser />} />
+                <Route path="/editUser" element={<UpdateUser />} />
                 <Route path="/apptList" element={<ListAppt />} />
                 <Route path="/addAppt" element={<AddAppt />} />
                 <Route path="/updateAppt/:appointmentId" element={<UpdateAppt />} />

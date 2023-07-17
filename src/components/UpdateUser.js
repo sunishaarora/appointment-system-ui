@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import UserService from "../services/UserService";
 
 const UpdateUser = () => {
   const { userId } = useParams();
+  const {state} = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    userId: userId,
-    firstName: "",
-    lastName: "",
-    emailAddresses: "",
-    phoneNumbers: "",
-    gender: "",
-    age: "",
-  });
 
+  const [user, setUser] = useState(state);
+  console.log(state);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
@@ -22,23 +16,10 @@ const UpdateUser = () => {
       [name]: value,
     }));
   };
-  
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await UserService.getUserById(userId);
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [userId]);
 
   const updateUser = (e) => {
     e.preventDefault();
-    UserService.updateUser(user.userId, user) // Pass the userId and user object
+    UserService.updateUser(user.userId, user)
       .then((response) => {
         navigate("/userList");
       })

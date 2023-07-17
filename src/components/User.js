@@ -6,7 +6,8 @@ const User = ({ user, deleteUser }) => {
 
   const editUser = (e, firstName, lastName) => {
     e.preventDefault();
-    navigate(`/editUser/${firstName}/${lastName}`);
+    //navigate(`/editUser/${firstName}/${lastName}`);
+    navigate("/editUser/", {state: user});
   };
 
   return (

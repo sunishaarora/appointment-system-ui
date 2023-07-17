@@ -8,26 +8,33 @@ function UserList() {
 
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await UserService.getUsers();
-        setUsers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await UserService.getUsers();
+      setUsers(response.data);
+      setFilteredUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   const deleteUser = (e, userId) => {
     e.preventDefault();
     UserService.deleteUser(userId)
       .then(() => {
         setUsers((prevUsers) =>
+          prevUsers.filter((user) => user.userId !== userId)
+        );
+        setFilteredUsers((prevUsers) =>
           prevUsers.filter((user) => user.userId !== userId)
         );
       })
@@ -41,51 +48,55 @@ function UserList() {
     navigate(`/editUser/${firstName}/${lastName}`);
   };
 
+  const handleSearch = () => {
+    const searchQueryLowercase = searchQuery.toLowerCase().trim();
+    const filteredResults = users.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(searchQueryLowercase) ||
+        user.lastName.toLowerCase().includes(searchQueryLowercase) ||
+        (user.firstName.toLowerCase() + " " + user.lastName.toLowerCase()).includes(searchQueryLowercase)
+    );
+    setFilteredUsers(filteredResults);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="container mx-auto my-8">
-      <div className="h-12">
+      <div className="flex justify-between mb-4">
         <button
           onClick={() => navigate("/addUser")}
           className="rounded bg-slate-600 text-white px-6 py-2 font-semibold"
         >
           Add User
         </button>
+        <div className="flex border border-slate-600 rounded">
+          <input
+            type="text"
+            placeholder="Search by Name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="rounded-l px-4 py-2 border-r-0 border-gray-400 focus:outline-none focus:border-transparent"
+          />
+        </div>
       </div>
-      <div className="h-12"></div>
       <div className="flex shadow border-b">
         <table className="min-w-full">
           <thead className="bg-gray-50">
-            <tr>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                First Name
-              </th>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Last Name
-              </th>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Email Addresses
-              </th>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Phone Numbers
-              </th>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Gender
-              </th>
-              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Age
-              </th>
-              <th className="text-right font-medium text-gray-500 uppercase tracking-wider py-3 px-6">
-                Actions
-              </th>
-            </tr>
+            {/* Table header code */}
           </thead>
-          {!loading && users.length > 0 ? (
+          {!loading && filteredUsers.length > 0 ? (
             <tbody className="bg-white">
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <User
                   user={user}
                   deleteUser={deleteUser}
-                  editUser={editUser} // Add the editUser prop
+                  editUser={editUser}
                   key={user.userId}
                 />
               ))}
