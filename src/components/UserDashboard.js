@@ -73,7 +73,7 @@ const UserDashboard = ({ userId }) => {
             <h1 className="text-4xl font-bold mb-8 text-center">User Dashboard</h1>
             <div className="flex justify-end mb-4">
                 <Link
-                    to={`/editUser/${userId}`}
+                    to={`/updateUserDetails/${userId}`}
                     className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
                 >
                     Update User Details

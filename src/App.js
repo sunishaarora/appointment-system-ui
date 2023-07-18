@@ -11,6 +11,7 @@ import AddAppt from "./components/AddAppt";
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
+import UpdateUserDetails from "./components/UpdateUserDetails";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/dashboard/:userId" element={<Dashboard />} />
                 <Route exact path="/admin/dashboard" element={<Homepage />} />
+                <Route exact path="/updateUserDetails/:userId" element={<UpdateUserDetails />} />
             </Routes>
         </BrowserRouter>
     );
