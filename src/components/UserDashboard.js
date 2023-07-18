@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Link, useParams } from "react-router-dom";
 import ApptService from "../services/ApptService";
+import UserService from "../services/UserService";
 
 const UserDashboard = ({ userId }) => {
     const [loading, setLoading] = useState(true);
     const [appointments, setAppointments] = useState([]);
-    //const { userID } = useParams();
-
-    console.log(userId);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        console.log("userId:", userId);
         const fetchUserAppointments = async () => {
             try {
                 const response = await ApptService.getAllAppts();
@@ -28,6 +26,24 @@ const UserDashboard = ({ userId }) => {
         fetchUserAppointments();
     }, [userId]);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await UserService.getUsers();
+                const filteredUsers = response.data.filter(
+                    (user) => user.userId === Number(userId)
+                );
+                if (filteredUsers.length > 0) {
+                    setUser(filteredUsers[0]);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchUser();
+    }, [userId]);
+
     const deleteAppointment = async (id) => {
         try {
             await ApptService.deleteAppt(id);
@@ -38,7 +54,6 @@ const UserDashboard = ({ userId }) => {
             console.log(error);
         }
     };
-
 
     const renderAppointments = () => {
         if (loading) {
@@ -70,7 +85,9 @@ const UserDashboard = ({ userId }) => {
 
     return (
         <div className="container mx-auto mt-8">
-            <h1 className="text-4xl font-bold mb-8 text-center">User Dashboard</h1>
+            <h1 className="text-4xl font-bold mb-8 text-center">
+                Welcome {user && user.firstName}!
+            </h1>
             <div className="flex justify-end mb-4">
                 <Link
                     to={`/updateUserDetails/${userId}`}
@@ -82,23 +99,23 @@ const UserDashboard = ({ userId }) => {
             <div className="bg-white p-8 shadow">
                 <h2 className="text-2xl font-semibold mb-4">Upcoming Appointments</h2>
 
-            <div className="flex shadow border-b">
-                <table className="min-w-full">
-                    <thead className="bg-gray-50">
-                    <tr>
-                        <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Appt ID</th>
-                        <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Appointment Name</th>
-                        <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Start Time</th>
-                        <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">End Time</th>
-                        <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody className="bg-white">
-                    {renderAppointments()}
-                    </tbody>
-                </table>
+                <div className="flex shadow border-b">
+                    <table className="min-w-full">
+                        <thead className="bg-gray-50">
+                        <tr>
+                            <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Appt ID</th>
+                            <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Appointment Name</th>
+                            <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Start Time</th>
+                            <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">End Time</th>
+                            <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-3 px-6">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody className="bg-white">
+                        {renderAppointments()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         </div>
     );
 };
