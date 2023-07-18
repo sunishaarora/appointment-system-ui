@@ -91,7 +91,7 @@ const UserDashboard = ({ userId }) => {
             <div className="flex justify-end mb-4">
                 <Link
                     to={`/updateUserDetails/${userId}`}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                    className="bg-slate-600 hover:bg-blue-600 text-white py-2 px-4 rounded"
                 >
                     Update User Details
                 </Link>

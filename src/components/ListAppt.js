@@ -204,13 +204,13 @@ const ListAppt = () => {
                         onChange={handleSearchTerm}
                     />
                     <button
-                        className="rounded bg-gray-500 text-white px-4 py-1 ml-2"
+                        className="rounded bg-slate-600 text-white px-4 py-1 ml-2"
                         onClick={searchAppts}
                     >
                         Search
                     </button>
                     <button
-                        className="rounded bg-gray-500 text-white px-4 py-1 ml-2"
+                        className="rounded bg-slate-600 text-white px-4 py-1 ml-2"
                         onClick={resetSearch}
                     >
                         Reset
