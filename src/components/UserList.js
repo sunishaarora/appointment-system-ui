@@ -88,6 +88,29 @@ function UserList() {
       <div className="flex shadow border-b">
         <table className="min-w-full">
           <thead className="bg-gray-50">
+          <tr>
+              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                First Name
+              </th>
+              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Last Name
+              </th>
+              <th className="text-left font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Email Adresses
+              </th>
+              <th className="text-right font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Phone Numbers
+              </th>
+              <th className="text-right font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Gender
+              </th>
+              <th className="text-right font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Age
+              </th>
+              <th className="text-right font-medium text-gray-500 uppercase tracking-wider py-1 px-2">
+                Actions
+              </th>
+            </tr>
             {/* Table header code */}
           </thead>
           {!loading && filteredUsers.length > 0 ? (
