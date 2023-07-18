@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import {BrowserRouter, Routes, Route, useParams} from "react-router-dom";
 import "./App.css";
 import AddUser from "./components/AddUser";
 import UserList from "./components/UserList";
@@ -8,6 +9,8 @@ import ListAppt from "./components/ListAppt";
 import UpdateAppt from "./components/UpdateAppt";
 import AddAppt from "./components/AddAppt";
 import Homepage from "./components/Homepage";
+import Login from "./components/Login";
+import UserDashboard from "./components/UserDashboard";
 
 function App() {
     return (
@@ -22,9 +25,19 @@ function App() {
                 <Route path="/apptList" element={<ListAppt />} />
                 <Route path="/addAppt" element={<AddAppt />} />
                 <Route path="/updateAppt/:appointmentId" element={<UpdateAppt />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/dashboard/:userId" element={<Dashboard />} />
+                <Route exact path="/admin/dashboard" element={<Homepage />} />
             </Routes>
         </BrowserRouter>
     );
 }
+
+const Dashboard = (props) => {
+    const { userId } = useParams();
+    console.log("userId:", userId);
+
+    return <UserDashboard userId={userId}/>;
+};
 
 export default App;
