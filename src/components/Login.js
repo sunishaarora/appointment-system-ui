@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import backgroundImage from "../imgs/background.jpg";
 
 const Login = () => {
     const [userId, setUserId] = useState("");
@@ -29,6 +30,15 @@ const Login = () => {
     };
 
     return (
+        <div
+            className="flex flex-col h-screen"
+            style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+            }}
+        >
         <div className="container mx-auto max-w-md mt-20 p-6 bg-gray-200 rounded shadow-lg">
             <h2 className="text-2xl mb-6">Login</h2>
             <form onSubmit={handleLogin}>
@@ -64,6 +74,7 @@ const Login = () => {
                     Login
                 </button>
             </form>
+        </div>
         </div>
     );
 };
